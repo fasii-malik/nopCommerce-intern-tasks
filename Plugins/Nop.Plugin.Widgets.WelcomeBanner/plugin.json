@@ -1,0 +1,11 @@
+{
+  "Group": "Widgets",
+  "FriendlyName": "Welcome Banner Widget",
+  "SystemName": "Widgets.WelcomeBanner",
+  "Version": "1.00",
+  "SupportedVersions": [ "4.70" ],
+  "Author": "YourName",
+  "DisplayOrder": 1,
+  "FileName": "Nop.Plugin.Widgets.WelcomeBanner.dll",
+  "Description": "Displays a welcome banner on the homepage."
+}

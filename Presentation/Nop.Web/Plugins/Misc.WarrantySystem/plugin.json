@@ -1,0 +1,14 @@
+﻿{
+  "Group": "Misc",
+  "FriendlyName": "Warranty System",
+  "SystemName": "Misc.WarrantySystem",
+  "Version": "1.0",
+  "SupportedVersions": [ "4.70" ],
+  "Author": "Fasih",
+  "DisplayOrder": 1,
+  "Description": "Plugin to register product warranties.",
+  "FileName": "Nop.Plugin.Misc.WarrantySystem.dll",
+  "LimitedToStores": [],
+  "Installed": false,
+  "SupportsAsyncInstallation": true
+}

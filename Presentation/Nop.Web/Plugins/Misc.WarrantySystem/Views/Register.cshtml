@@ -1,0 +1,404 @@
+﻿@model Nop.Plugin.Misc.WarrantySystem.Models.WarrantyRegisterModel
+@using Microsoft.AspNetCore.Mvc.Rendering
+
+@{
+    Layout = "~/Views/Shared/_Root.cshtml";
+    ViewData["Title"] = "Warranty Registration";
+}
+
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet" />
+
+<style>
+    body {
+        margin: 0;
+        padding: 0;
+    }
+    .wr-wrap {
+        min-height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 25px 16px;
+        background: #f5f3ee;
+        font-family: 'DM Sans', sans-serif;
+    }
+
+    .wr-card {
+        background: #ffffff;
+        border-radius: 24px;
+        box-shadow: 0 4px 6px rgba(0,0,0,0.04), 0 24px 60px rgba(0,0,0,0.08);
+        width: 100%;
+        max-width: 650px;
+        overflow: hidden;
+    }
+
+    .wr-header {
+        background: linear-gradient(135deg, #1a1a2e 0%, #16213e 60%, #0f3460 100%);
+        padding: 44px 48px 36px;
+        position: relative;
+        overflow: hidden;
+    }
+
+    .wr-header::before {
+        content: '';
+        position: absolute;
+        width: 260px;
+        height: 260px;
+        border-radius: 50%;
+        background: radial-gradient(circle, rgba(229,186,96,0.18) 0%, transparent 70%);
+        top: -80px;
+        right: -60px;
+    }
+
+    .wr-header::after {
+        content: '✦';
+        position: absolute;
+        font-size: 120px;
+        color: rgba(255,255,255,0.03);
+        bottom: -20px;
+        left: 30px;
+        font-family: serif;
+    }
+
+    .wr-badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        background: rgba(229,186,96,0.15);
+        border: 1px solid rgba(229,186,96,0.3);
+        color: #e5ba60;
+        font-size: 11px;
+        font-weight: 600;
+        letter-spacing: 3px;
+        text-transform: uppercase;
+        padding: 6px 14px;
+        border-radius: 50px;
+        margin-bottom: 16px;
+    }
+
+    .wr-title {
+        font-family: 'DM Serif Display', serif;
+        font-size: 2rem;
+        color: #ffffff;
+        margin: 0 0 8px;
+        line-height: 1.2;
+        position: relative;
+        z-index: 1;
+    }
+
+    .wr-subtitle {
+        color: rgba(255,255,255,0.5);
+        font-size: 0.875rem;
+        font-weight: 300;
+        margin: 0;
+        position: relative;
+        z-index: 1;
+    }
+
+    .wr-body {
+        padding: 40px 48px 48px;
+    }
+
+    .wr-alert-success {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        background: #f0faf4;
+        border: 1px solid #a8ddb8;
+        border-left: 4px solid #2e9e5b;
+        color: #1e6e40;
+        padding: 14px 18px;
+        border-radius: 12px;
+        font-size: 0.875rem;
+        font-weight: 500;
+        margin-bottom: 28px;
+        animation: slideIn 0.4s ease;
+    }
+
+    .wr-alert-success::before {
+        content: '✓';
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 22px;
+        height: 22px;
+        background: #2e9e5b;
+        color: white;
+        border-radius: 50%;
+        font-size: 12px;
+        font-weight: 700;
+        flex-shrink: 0;
+    }
+
+    @@keyframes slideIn {
+        from { opacity: 0; transform: translateY(-8px); }
+        to   { opacity: 1; transform: translateY(0); }
+    }
+
+    .wr-field {
+        margin-bottom: 24px;
+    }
+
+    .wr-label {
+        display: block;
+        font-size: 12px;
+        font-weight: 600;
+        letter-spacing: 1.5px;
+        text-transform: uppercase;
+        color: #6b6b7b;
+        margin-bottom: 8px;
+    }
+
+    .wr-select,
+    .wr-input {
+        width: 100%;
+        padding: 14px 18px;
+        border: 1.5px solid #e8e6e0;
+        border-radius: 12px;
+        font-family: 'DM Sans', sans-serif;
+        font-size: 0.9375rem;
+        color: #1a1a2e;
+        background: #fafaf8;
+        line-height: 1.6; /* Add this */
+        height: 48px; /* Add this */
+        transition: border-color 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
+        outline: none;
+        box-sizing: border-box;
+        appearance: none;
+        -webkit-appearance: none;
+    }
+
+    .wr-select {
+        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%236b6b7b' stroke-width='2'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+        background-repeat: no-repeat;
+        background-position: right 16px center;
+        padding-right: 44px;
+        cursor: pointer;
+    }
+
+    .wr-select:focus,
+    .wr-input:focus {
+        border-color: #0f3460;
+        background: #ffffff;
+        box-shadow: 0 0 0 4px rgba(15,52,96,0.08);
+    }
+
+    .wr-file-wrapper {
+        position: relative;
+    }
+
+    .wr-file-label {
+        display: flex;
+        align-items: center;
+        gap: 14px;
+        padding: 16px 20px;
+        border: 1.5px dashed #d0cdc6;
+        border-radius: 12px;
+        background: #fafaf8;
+        cursor: pointer;
+        transition: border-color 0.2s, background 0.2s;
+    }
+
+    .wr-file-label:hover {
+        border-color: #0f3460;
+        background: #f0f4fa;
+    }
+
+    .wr-file-icon {
+        width: 40px;
+        height: 40px;
+        background: #eef1f8;
+        border-radius: 10px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-shrink: 0;
+        font-size: 18px;
+    }
+
+    .wr-file-text strong {
+        display: block;
+        font-size: 0.875rem;
+        font-weight: 600;
+        color: #1a1a2e;
+    }
+
+    .wr-file-text span {
+        font-size: 0.8rem;
+        color: #9b99a6;
+        font-weight: 300;
+    }
+
+    .wr-file-input {
+        position: absolute;
+        inset: 0;
+        opacity: 0;
+        cursor: pointer;
+        width: 100%;
+        height: 100%;
+    }
+
+    .wr-divider {
+        height: 1px;
+        background: linear-gradient(90deg, transparent, #e8e6e0, transparent);
+        margin: 32px 0;
+    }
+
+    .wr-submit {
+        width: 100%;
+        padding: 16px;
+        background: linear-gradient(135deg, #1a1a2e, #0f3460);
+        color: #ffffff;
+        font-family: 'DM Sans', sans-serif;
+        font-size: 0.9375rem;
+        font-weight: 600;
+        letter-spacing: 0.5px;
+        border: none;
+        border-radius: 12px;
+        cursor: pointer;
+        position: relative;
+        overflow: hidden;
+        transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .wr-submit::before {
+        content: '';
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(135deg, rgba(229,186,96,0.15), transparent);
+        opacity: 0;
+        transition: opacity 0.3s ease;
+    }
+
+    .wr-submit:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 8px 24px rgba(15,52,96,0.3);
+    }
+
+    .wr-submit:hover::before {
+        opacity: 1;
+    }
+
+    .wr-submit:active {
+        transform: translateY(0);
+    }
+
+    .wr-footer-note {
+        text-align: center;
+        margin-top: 20px;
+        font-size: 0.8rem;
+        color: #b0aeb9;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 6px;
+    }
+
+  /*   .wr-back-btn {
+        position: absolute;
+        top: 40px;
+        right: 24px;
+        z-index: 5;
+        display: inline-block;
+        padding: 5px 12px;
+        border-radius: 6px;
+        background: transparent;
+        color: #ffffff;
+        text-decoration: none;
+        cursor: pointer;
+    }
+
+        .wr-back-btn:hover {
+            background: rgba(255,255,255,0.1);
+        } */
+</style>
+
+
+<div class="master-wrapper-content">
+    <div class="master-column-wrapper">
+
+        <!-- LEFT SIDEBAR -->
+        <div class="side-2">
+            @await Component.InvokeAsync("CustomerNavigation", new { selectedTabId = 150 })
+        </div>
+
+        <!-- RIGHT MAIN CONTENT -->
+        <div class="center-2">
+            <div class="page">
+
+                @* your wr-card goes here, replacing the wr-wrap centering div *@
+                <div class="wr-wrap">
+    <div class="wr-card">
+
+        <div class="wr-header">
+          @*   <button type="button" class="wr-back-btn" onclick="history.back()">←</button> *@
+            <div class="wr-badge">⚙ Warranty</div>
+            <h2 class="wr-title">Product Registration</h2>
+            <p class="wr-subtitle">Register your product to activate warranty coverage</p>
+        </div>
+
+        <div class="wr-body">
+
+            @if (TempData["SuccessMessage"] != null)
+            {
+                    <div class="wr-alert-success">@TempData["SuccessMessage"]</div>
+            }
+
+            <form asp-action="Register" method="post" enctype="multipart/form-data">
+                <div class="wr-field">
+                    <label for="SelectedProductName" class="wr-label">Product</label>
+                    <select id="SelectedProductName"
+                            name="SelectedProductName"
+                            class="wr-select">
+                        <option value="">-- Select a Product --</option>
+                        @foreach (var p in Model.Products)
+                        {
+                            if (p.Value == Model.SelectedProductName)
+                            {
+                                <option value="@p.Value" selected="selected">@p.Text</option>
+                            }
+                            else
+                            {
+                                <option value="@p.Value">@p.Text</option>
+                            }
+                        }
+                    </select>
+                </div>
+
+                <div class="wr-field">
+                    <label class="wr-label">Serial Number</label>
+                    <input asp-for="SerialNumber" class="wr-input" placeholder="e.g. SN-XXXX-0000" />
+                </div>
+
+                <div class="wr-field">
+                    <label class="wr-label">Invoice <span style="font-weight:300;text-transform:none;letter-spacing:0">(optional)</span></label>
+                    <div class="wr-file-wrapper">
+                        <label class="wr-file-label" for="InvoiceFile">
+                            <div class="wr-file-icon">📄</div>
+                            <div class="wr-file-text">
+                                <strong>Upload Invoice</strong>
+                                <span>PDF, JPG or PNG — max 5MB</span>
+                            </div>
+                        </label>
+                        <input asp-for="InvoiceFile" type="file" class="wr-file-input" id="InvoiceFile" />
+                    </div>
+                </div>
+
+                <div class="wr-divider"></div>
+                               
+                    <button type="submit" class="wr-submit">Activate Warranty →</button>
+        
+
+            </form>
+
+            <p class="wr-footer-note">🔒 Your data is secure and never shared</p>
+        </div>
+    </div>
+</div>
+
+            </div>
+        </div>
+
+    </div>
+</div>
+

@@ -1,0 +1,30 @@
+﻿{
+  "InstalledPluginNames": [
+    "Obsolete field, using only for compatibility"
+  ],
+  "InstalledPlugins": [
+    {
+      "SystemName": "Tax.FixedOrByCountryStateZip",
+      "Version": "4.70.5"
+    },
+    {
+      "SystemName": "Widgets.NivoSlider",
+      "Version": "4.70.2"
+    },
+    {
+      "SystemName": "Shipping.FixedByWeightByTotal",
+      "Version": "4.70.7"
+    },
+    {
+      "SystemName": "Widgets.WelcomeBanner",
+      "Version": "1.00"
+    },
+    {
+      "SystemName": "Misc.WarrantySystem",
+      "Version": "1.0"
+    }
+  ],
+  "PluginNamesToUninstall": [],
+  "PluginNamesToDelete": [],
+  "PluginNamesToInstall": []
+}

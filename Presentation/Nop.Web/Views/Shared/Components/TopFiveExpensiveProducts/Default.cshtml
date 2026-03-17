@@ -1,0 +1,35 @@
+﻿@model IEnumerable<Nop.Web.Models.Catalog.ProductOverviewModel>
+
+<div class="product-grid top-expensive-products">
+    <div class="title">
+        <strong>Top 5 Most Expensive Products</strong>
+    </div>
+    <div class="item-grid">
+        @foreach (var product in Model)
+        {
+            <div class="item-box">
+                <div class="product-item">
+                    <div class="picture">
+                        <a href="@Url.RouteUrl("Product", new { SeName = product.SeName })">
+                            @if (product.PictureModels.Any())
+                            {
+                                <img src="@product.PictureModels.First().ImageUrl"
+                                     alt="@product.PictureModels.First().AlternateText" />
+                            }
+                        </a>
+                    </div>
+                    <div class="details">
+                        <h2 class="product-title">
+                            <a href="@Url.RouteUrl("Product", new { SeName = product.SeName })">
+                                @product.Name
+                            </a>
+                        </h2>
+                        <div class="prices">
+                            <span class="price actual-price">@product.ProductPrice.Price</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</div>

@@ -1,0 +1,135 @@
+﻿@model CatalogProductsModel
+
+@if (!Model.PriceRangeFilter.Enabled &&
+     !Model.SpecificationFilter.Enabled &&
+     !Model.ManufacturerFilter.Enabled)
+{
+    @if (!Context.Request.Path.StartsWithSegments("/search"))
+    {
+        <div class="block product-filters">
+            <div class="block filter-block instock-filter-block">
+                <div class="title filter-title"><strong>Availability</strong></div>
+                <div class="filter-content">
+                    <label class="instock-label">
+                        <input type="checkbox" id="SidebarInStockOnly" class="instock-checkbox" />
+                        <span class="instock-text">In Stock Only</span>
+                        <span class="instock-badge">✓ Available</span>
+                    </label>
+                </div>
+            </div>
+        </div>
+    }
+    return;
+}
+
+<div class="block product-filters">
+    @if (Model.PriceRangeFilter.Enabled)
+    {
+        @await Html.PartialAsync("_FilterPriceBox", Model.PriceRangeFilter)
+    }
+
+    @if (Model.SpecificationFilter.Enabled)
+    {
+        @await Html.PartialAsync("_FilterSpecsBox", Model.SpecificationFilter)
+    }
+
+    @if (Model.ManufacturerFilter.Enabled)
+    {
+        @await Html.PartialAsync("_FilterManufacturerBox", Model.ManufacturerFilter)
+    }
+
+    @* ← ADD: Custom In-Stock Filter *@
+    @if (!Context.Request.Path.StartsWithSegments("/search"))
+    {
+        <div class="block filter-block instock-filter-block">
+            <div class="title filter-title">
+                <strong>Availability</strong>
+            </div>
+            <div class="filter-content">
+                <label class="instock-label">
+                    <input type="checkbox"
+                    id="SidebarInStockOnly"
+                    name="InStockOnly"
+                    value="true"
+                    class="instock-checkbox" />
+                    <span class="instock-text">In Stock Only</span>
+                    <span class="instock-badge">✓ Available</span>
+                </label>
+            </div>
+        </div>
+    }
+</div>
+
+<script asp-location="Footer">
+    $(function() {
+        $('.block .filter-title').on('click', function () {
+            var e = window, a = 'inner';
+            if (!('innerWidth' in window)) {
+                a = 'client';
+                e = document.documentElement || document.body;
+            }
+            var result = { width: e[a + 'Width'], height: e[a + 'Height'] };
+            if (result.width < 1001) {
+                $(this).siblings('.filter-content').slideToggle('slow');
+            }
+        });
+
+        // ← ADD: Sync sidebar checkbox with search form checkbox
+        var urlParams = new URLSearchParams(window.location.search);
+        if (urlParams.get('InStockOnly') === 'true') {
+            $('#SidebarInStockOnly').prop('checked', true);
+        }
+
+        // ← ADD: On change, add to URL and reload
+        $('#SidebarInStockOnly').on('change', function () {
+            var url = new URL(window.location.href);
+            if ($(this).is(':checked')) {
+                url.searchParams.set('InStockOnly', 'true');
+            } else {
+                url.searchParams.delete('InStockOnly');
+            }
+            window.location.href = url.toString();
+        });
+    });
+</script>
+
+
+<style>
+    .instock-filter-block {
+        margin-top: 15px;
+    }
+
+        .instock-filter-block .filter-content {
+            padding: 10px 15px;
+        }
+
+    .instock-label {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        cursor: pointer;
+        margin: 0;
+    }
+
+    .instock-checkbox {
+        width: 17px;
+        height: 17px;
+        cursor: pointer;
+        accent-color: #28a745;
+    }
+
+    .instock-text {
+        font-size: 14px;
+        font-weight: 500;
+        color: #333;
+    }
+
+    .instock-badge {
+        font-size: 11px;
+        background: #e6f4ea;
+        color: #28a745;
+        padding: 2px 8px;
+        border-radius: 20px;
+        font-weight: 600;
+    }
+</style>
