@@ -67,7 +67,8 @@ public partial class CatalogModelFactory : ICatalogModelFactory
     protected readonly SeoSettings _seoSettings;
     protected readonly VendorSettings _vendorSettings;
     private static readonly char[] _separator = [',', ' '];
-
+    //MY CUSTOM FOR TASK#2
+    protected readonly IProductRecommendationService _productRecommendationService;
     #endregion
 
     #region Ctor

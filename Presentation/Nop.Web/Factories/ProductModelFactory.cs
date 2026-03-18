@@ -81,7 +81,8 @@ public partial class ProductModelFactory : IProductModelFactory
     protected readonly ShippingSettings _shippingSettings;
     protected readonly VendorSettings _vendorSettings;
     private static readonly char[] _separator = [','];
-
+    //MY CUSTOM FOR TASK#2
+    //protected readonly IProductRecommendationService _productRecommendationService;
     #endregion
 
     #region Ctor
@@ -167,6 +168,7 @@ public partial class ProductModelFactory : IProductModelFactory
         _shippingSettings = shippingSettings;
         _vendorSettings = vendorSettings;
         _videoService = videoService;
+        
     }
 
     #endregion
@@ -1721,6 +1723,11 @@ public partial class ProductModelFactory : IProductModelFactory
             var jsonLdModel = await _jsonLdModelFactory.PrepareJsonLdProductAsync(model);
             model.JsonLd = JsonConvert.SerializeObject(jsonLdModel, new JsonSerializerSettings { NullValueHandling = NullValueHandling.Ignore });
         }
+        
+        //TASK#2
+        // Frequently bought together
+        //var frequentlyBoughtProducts = await _productRecommendationService.GetFrequentlyBoughtTogetherAsync(product.Id);
+        //model.FrequentlyBoughtTogether = (await PrepareProductOverviewModelsAsync(frequentlyBoughtProducts)).ToList();
 
         return model;
     }

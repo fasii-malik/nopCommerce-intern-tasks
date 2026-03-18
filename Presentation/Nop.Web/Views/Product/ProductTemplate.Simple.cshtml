@@ -165,6 +165,8 @@
                 </div>
                 @await Component.InvokeAsync(typeof(ProductsAlsoPurchasedViewComponent), new { productId = Model.Id })
                 @await Component.InvokeAsync(typeof(RelatedProductsViewComponent), new { productId = Model.Id })
+                @* MY CUSTOME FOR TASK#2 *@
+                @await Component.InvokeAsync(typeof(FrequentlyBoughtTogetherViewComponent), new { productId = Model.Id })
             </div>
         </form>
         <!--product reviews-->

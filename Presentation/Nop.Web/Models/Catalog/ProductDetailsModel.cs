@@ -125,6 +125,8 @@ public partial record ProductDetailsModel : BaseNopEntityModel
     public bool InStock { get; set; }
 
     public bool AllowAddingOnlyExistingAttributeCombinations { get; set; }
+    //MY CUSTOM FOR TASK#2
+    //public IList<ProductOverviewModel> FrequentlyBoughtTogether { get; set; } = new List<ProductOverviewModel>();
 
     #region Nested Classes
 

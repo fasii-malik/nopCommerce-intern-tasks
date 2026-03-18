@@ -22,6 +22,10 @@
     {
       "SystemName": "Misc.WarrantySystem",
       "Version": "1.0"
+    },
+    {
+      "SystemName": "Payments.CheckMoneyOrder",
+      "Version": "4.70.2"
     }
   ],
   "PluginNamesToUninstall": [],
