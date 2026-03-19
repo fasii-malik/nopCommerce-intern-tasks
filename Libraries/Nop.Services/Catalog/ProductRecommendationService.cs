@@ -5,6 +5,7 @@ using Nop.Core.Caching;
 using Nop.Core.Domain.Catalog;
 using Nop.Core.Domain.Orders;
 using Nop.Data;
+using Nop.Services.Logging;
 
 namespace Nop.Services.Catalog
 {
@@ -15,6 +16,7 @@ namespace Nop.Services.Catalog
         protected readonly IRepository<OrderItem> _orderItemRepository;
         protected readonly IRepository<Product> _productRepository;
         private readonly IStaticCacheManager _staticCacheManager;
+        private readonly ILogger _logger;
 
         // Cache key template — {0} will be replaced with productId at runtime
         internal static readonly CacheKey FrequentlyBoughtTogetherCacheKey =
@@ -26,10 +28,14 @@ namespace Nop.Services.Catalog
 
         public ProductRecommendationService(
             IRepository<OrderItem> orderItemRepository,
-            IRepository<Product> productRepository)
+            IRepository<Product> productRepository,
+            ILogger logger,
+            IStaticCacheManager staticCacheManager)
         {
             _orderItemRepository = orderItemRepository;
             _productRepository = productRepository;
+            _logger = logger;
+            _staticCacheManager = staticCacheManager;
         }
 
         #endregion
@@ -39,10 +45,16 @@ namespace Nop.Services.Catalog
         public async Task<IList<Product>> GetFrequentlyBoughtTogetherAsync(int productId)
         {
             var cacheKey = _staticCacheManager.PrepareKeyForDefaultCache(
-    FrequentlyBoughtTogetherCacheKey, productId);
+                FrequentlyBoughtTogetherCacheKey, productId);
+
+            // Log EVERY call to this method
+            await _logger.InformationAsync($"[FBT] Method called for productId={productId}");
 
             return await _staticCacheManager.GetAsync(cacheKey, async () =>
             {
+                // This only logs on a CACHE MISS (DB hit)
+                await _logger.InformationAsync($"[FBT] CACHE MISS — querying DB for productId={productId}");
+
                 // Step 1: find all orderIds that contain this product
                 var orderItemsForProduct = await _orderItemRepository.GetAllAsync(query =>
                     query.Where(oi => oi.ProductId == productId));
@@ -70,6 +82,8 @@ namespace Nop.Services.Catalog
                 // Step 4: fetch the actual product entities
                 var products = await _productRepository.GetAllAsync(query =>
                     query.Where(p => topProductIds.Contains(p.Id) && !p.Deleted && p.Published));
+
+                await _logger.InformationAsync($"[FBT] DB query complete, caching result for productId={productId}");
 
                 return products;
             });
