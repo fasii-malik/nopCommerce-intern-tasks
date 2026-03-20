@@ -1,0 +1,51 @@
+﻿@model IList<Nop.Web.Areas.Admin.Models.Orders.DailyOrderReportModel>
+
+@{
+    ViewBag.Title = "Daily Order Reports";
+    Layout = "_AdminLayout";
+}
+
+<div class="content-header clearfix">
+    <h1 class="float-left">
+        Daily Order Reports
+    </h1>
+</div>
+
+<section class="content">
+    <div class="container-fluid">
+        <div class="card">
+            <div class="card-body">
+                @if (!Model.Any())
+                {
+                        <p>No reports generated yet. Go to <strong>System → Schedule Tasks</strong> and run the <em>Generate daily order report</em> task.</p>
+                }
+                else
+                {
+                        <table class="table table-bordered table-striped table-hover">
+                            <thead>
+                                <tr>
+                                    <th>Report Date</th>
+                                    <th>Total Orders</th>
+                                    <th>Total Revenue</th>
+                                    <th>Top Selling Product</th>
+                                    <th>Generated On</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                            @foreach (var report in Model)
+                            {
+                                        <tr>
+                                            <td>@report.ReportDate.ToString("yyyy-MM-dd")</td>
+                                            <td>@report.TotalOrders</td>
+                                            <td>@report.TotalRevenue.ToString("C")</td>
+                                            <td>@report.TopSellingProductName</td>
+                                            <td>@report.CreatedOnUtc.ToString("yyyy-MM-dd HH:mm")</td>
+                                        </tr>
+                            }
+                            </tbody>
+                        </table>
+                }
+            </div>
+        </div>
+    </div>
+</section>

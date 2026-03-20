@@ -238,6 +238,8 @@ public partial class NopStartup : INopStartup
         services.AddScoped<IProductReviewAnalyticsService, ProductReviewAnalyticsService>();
         //MY CUSTOM TASK#2
         services.AddScoped<IProductRecommendationService, ProductRecommendationService>();
+        //MY CUSTOM TASK#6
+        services.AddScoped<IDailyOrderReportService, DailyOrderReportService>();
 
         //attribute services
         services.AddScoped(typeof(IAttributeService<,>), typeof(AttributeService<,>));
