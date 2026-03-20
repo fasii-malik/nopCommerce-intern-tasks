@@ -1,0 +1,16 @@
+﻿{
+  "Group": "Widgets",
+  "FriendlyName": "Store Analytics Widget",
+  "SupportedVersions": [
+    "4.70"
+  ],
+  "Author": "Fasih",
+  "DisplayOrder": 1,
+  "FileName": "Nop.Plugin.Widgets.StoreAnalytics.dll",
+  "Description": "Displays key business metrics on the admin dashboard.",
+  "LimitedToStores": [],
+  "LimitedToCustomerRoles": [],
+  "DependsOnSystemNames": [],
+  "SystemName": "Widgets.StoreAnalytics",
+  "Version": "1.0"
+}

@@ -26,6 +26,10 @@
     {
       "SystemName": "Payments.CheckMoneyOrder",
       "Version": "4.70.2"
+    },
+    {
+      "SystemName": "Widgets.StoreAnalytics",
+      "Version": "1.0"
     }
   ],
   "PluginNamesToUninstall": [],
