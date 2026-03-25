@@ -30,6 +30,10 @@
     {
       "SystemName": "Widgets.StoreAnalytics",
       "Version": "1.0"
+    },
+    {
+      "SystemName": "Payments.Stripe",
+      "Version": "1.00"
     }
   ],
   "PluginNamesToUninstall": [],
