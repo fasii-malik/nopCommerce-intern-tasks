@@ -72,6 +72,12 @@ public partial class NopDbStartup : INopStartup
         var config = Singleton<AppSettings>.Instance.Get<CacheConfig>();
 
         LinqToDB.Common.Configuration.Linq.DisableQueryCache = config.LinqDisableQueryCache;
+        
+        //LinqToDB.Data.DataConnection.TurnTraceSwitchOn();
+        //LinqToDB.Data.DataConnection.WriteTraceLine = (message, displayName, traceLevel) =>
+        //{
+        //    Console.WriteLine($"[SQL] {message}");
+        //};
     }
 
     /// <summary>

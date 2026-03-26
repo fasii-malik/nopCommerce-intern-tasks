@@ -1,0 +1,61 @@
+﻿@model ProductImportModel
+
+@{
+    Layout = "_AdminLayout";
+    NopHtml.SetActiveMenuItemSystemName("ProductImport");
+}
+
+<form asp-controller="ProductImport" asp-action="Import" method="post" enctype="multipart/form-data">
+    <div class="content-header clearfix">
+        <h1 class="float-left">
+            @T("Admin.Catalog.ProductImport")
+        </h1>
+        <div class="float-right">
+            <button type="submit" name="import" class="btn btn-primary">
+                <i class="fas fa-upload"></i>
+                @T("Admin.Catalog.ProductImport.ImportButton")
+            </button>
+        </div>
+    </div>
+
+    <section class="content">
+        <div class="container-fluid">
+            <div class="form-horizontal">
+                <div class="cards-group">
+                    <div class="card card-default">
+                        <div class="card-body">
+                            <div class="form-group row">
+                                <div class="col-md-3">
+                                    <nop-label asp-for="CsvFile" />
+                                </div>
+                                <div class="col-md-9">
+                                    <input type="file" asp-for="CsvFile" accept=".csv" class="form-control" />
+                                    <span asp-validation-for="CsvFile"></span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card card-default">
+                        <div class="card-header">
+                            @T("Admin.Catalog.ProductImport.Instructions")
+                        </div>
+                        <div class="card-body">
+                            <div class="alert alert-info">
+                                <strong>@T("Admin.Catalog.ProductImport.CsvFormat"):</strong><br />
+                                @T("Admin.Catalog.ProductImport.ExpectedColumns"): <code>Name, Price, Category, Stock</code><br />
+                                <br />
+                                <strong>@T("Admin.Catalog.ProductImport.Example"):</strong><br />
+                                <code>
+                                    Name,Price,Category,Stock<br />
+                                    "Laptop",899.99,"Electronics",50<br />
+                                    "T-Shirt",19.99,"Clothing",200
+                                </code>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</form>

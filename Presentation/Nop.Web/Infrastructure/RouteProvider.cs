@@ -1,4 +1,5 @@
 ﻿using Nop.Services.Installation;
+using Nop.Web.Framework;
 using Nop.Web.Framework.Mvc.Routing;
 
 namespace Nop.Web.Infrastructure;
@@ -20,6 +21,13 @@ public partial class RouteProvider : BaseRouteProvider, IRouteProvider
         //it's not needed to use language pattern in AJAX requests and for actions returning the result directly (e.g. file to download),
         //use it only for URLs of pages that the user can go to
         var lang = GetLanguageRoutePattern();
+
+        // Task#10 csv file import
+        endpointRouteBuilder.MapControllerRoute(
+            "ProductImportCsv",
+            "Admin/ProductImport/{action=Index}/{id?}",
+            new { controller = "ProductImport", area = AreaNames.ADMIN }
+        );
 
         //areas
         endpointRouteBuilder.MapControllerRoute(name: "areaRoute",

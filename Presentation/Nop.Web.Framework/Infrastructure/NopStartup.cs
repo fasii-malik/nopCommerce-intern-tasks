@@ -234,12 +234,17 @@ public partial class NopStartup : INopStartup
         services.AddScoped<IVideoService, VideoService>();
         services.AddScoped<INopUrlHelper, NopUrlHelper>();
         services.AddScoped<IWidgetModelFactory, WidgetModelFactory>();
+        
+        
         //MY CUSTOM TASK#1
         services.AddScoped<IProductReviewAnalyticsService, ProductReviewAnalyticsService>();
         //MY CUSTOM TASK#2
         services.AddScoped<IProductRecommendationService, ProductRecommendationService>();
         //MY CUSTOM TASK#6
         services.AddScoped<IDailyOrderReportService, DailyOrderReportService>();
+        //MY CUSTOM TASK#10
+        services.AddScoped<IProductImportService, ProductImportService>();
+
 
         //attribute services
         services.AddScoped(typeof(IAttributeService<,>), typeof(AttributeService<,>));

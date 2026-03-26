@@ -1,0 +1,76 @@
+﻿@model ImportResultModel
+
+@{
+    Layout = "_AdminLayout";
+    NopHtml.SetActiveMenuItemSystemName("ProductImport");
+}
+
+<div class="content-header clearfix">
+    <h1 class="float-left">
+        @T("Admin.Catalog.ProductImport.Results")
+    </h1>
+    <div class="float-right">
+        <a asp-controller="ProductImport" asp-action="Index" class="btn btn-secondary">
+            <i class="fas fa-arrow-left"></i>
+            @T("Admin.Common.BackToList")
+        </a>
+    </div>
+</div>
+
+<section class="content">
+    <div class="container-fluid">
+        <div class="form-horizontal">
+            <div class="cards-group">
+                <div class="card card-default">
+                    <div class="card-header">
+                        @T("Admin.Catalog.ProductImport.Summary")
+                    </div>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="alert alert-info">
+                                    <strong>@T("Admin.Catalog.ProductImport.TotalProcessed"):</strong> @Model.TotalProcessed<br />
+                                    <strong>@T("Admin.Catalog.ProductImport.Success"):</strong> <span class="text-success">@Model.SuccessCount</span><br />
+                                    <strong>@T("Admin.Catalog.ProductImport.Errors"):</strong> <span class="text-danger">@Model.ErrorCount</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                @if (Model.SuccessMessages.Any())
+                {
+                    <div class="card card-default">
+                        <div class="card-header">
+                            <h3 class="card-title">@T("Admin.Catalog.ProductImport.SuccessfulImports")</h3>
+                        </div>
+                        <div class="card-body">
+                            <ul class="list-group">
+                                @foreach (var message in Model.SuccessMessages)
+                                {
+                                    <li class="list-group-item list-group-item-success">@message</li>
+                                }
+                            </ul>
+                        </div>
+                    </div>
+                }
+
+                @if (Model.ErrorMessages.Any())
+                {
+                    <div class="card card-default">
+                        <div class="card-header">
+                            <h3 class="card-title">@T("Admin.Catalog.ProductImport.ErrorsList")</h3>
+                        </div>
+                        <div class="card-body">
+                            <ul class="list-group">
+                                @foreach (var error in Model.ErrorMessages)
+                                {
+                                    <li class="list-group-item list-group-item-danger">@error</li>
+                                }
+                            </ul>
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+    </section>
